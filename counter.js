@@ -56,6 +56,12 @@ $(document).ready(function() {
     }
   });
   
+  $('#countLength').keypress(function(event){
+    if(event.keyCode == 13) {
+      startTimer();
+    }
+  });
+  
 });
 
 function startTimer() {
