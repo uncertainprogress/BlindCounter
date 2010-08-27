@@ -1,0 +1,64 @@
+/*div {
+  border: 1px dashed orange;
+}
+
+span {
+  border: 1px dashed red;
+}*/
+
+body {
+  text-align:center;
+}
+
+#main {
+  text-align:left;
+  width: 90%;
+  margin: auto;
+}
+
+#controls {
+  padding: 10px 1px 10px 1px;
+  vertical-align: middle;
+}
+
+#counter {
+  text-align: center;
+  height: 90%;
+}
+
+#counter h1 {
+  font-size: 180pt;
+  padding: 2px;
+  margin: 0px 0px 0px 0px;
+}
+
+#counter h2 {
+  font-size: 100pt;
+  padding: 2px;
+  margin: 0px 0px 0px 0px;
+}
+
+#next {
+  padding 10px;
+}
+
+.control {
+  margin: 10px;
+  padding: 2px;
+}
+
+.inactive {
+  color: #666666;
+}
+
+.redback {
+  background-color: #FF3333;
+}
+
+.blueback {
+  background-color: #3333FF;
+}
+
+.yellowback {
+  background-color: #FFFF66;
+}

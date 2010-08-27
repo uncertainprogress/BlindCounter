@@ -1,0 +1,41 @@
+<head>
+	<head>
+		<title>Blind Counter</title>
+		
+		<script src="jquery-1.4.2.min.js"></script>
+		<script src="jquery.color.js"></script>
+		<script src="counter.js"></script>
+		
+		<link rel="stylesheet" href="counter.css" type="text/css" media="screen" charset="utf-8" />  
+		
+	</head>
+	
+	<body>
+		<div id="main">
+			<div id="controls">
+				
+				<div class="control">
+					<button id="startButton">Start</button>
+				</div>
+				
+				<div class="control">
+					<input type="text" id="countLength" size="5" class="clear" value="30"/> Length(Minutes)
+				</div>
+				
+			</div>
+		
+			<div id="counter" style="display:none">
+				<h1 id="countval">30:00</h1>
+				<h2 id="blinds">First Level</h2>
+			</div>
+		</div>
+		
+		<div id="next" style="display:none">
+			<span><button id="nextButton">Next</button></span>
+			<span><button id="pauseButton">Pause</button></span>
+		</div>
+			
+		
+	</body>
+	
+</head>
