@@ -1,6 +1,9 @@
-var blinds = ["25/50", "50/100", "75/150", "100/200", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
+var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
   "3000/6000", "4000/8000", "6000/12000", "8000/16000", "10000/20000"];
 //var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800", "500/1000","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000"]
+
+var widget_debug = true;
+
 var minutes = 30;
 var seconds = 59;
 
@@ -8,7 +11,10 @@ var tickInterval = null;
 var flashInterval = null;
 
 $(document).ready(function() {
+	Counter.initializeView();
+	
   //Set up the controls
+/*
   var html="<div class='control'><select id='levels' name='levels' MULTIPLE SIZE=5>"
   
   for(var i=0; i<blinds.length; i++) {
@@ -61,8 +67,25 @@ $(document).ready(function() {
       startTimer();
     }
   });
-  
+  */
 });
+
+Counter = {
+	log: function(message) {
+		if(widget_debug) {
+			console.log(message);
+		}
+	},
+	
+	//**************************************************
+	initializeView: function() {
+		
+		
+		$("#counter").hide();
+	},
+	
+	
+};
 
 function startTimer() {
   $('#blinds').text(blinds[$('#levels').val()])
