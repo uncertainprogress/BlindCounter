@@ -1,6 +1,5 @@
 var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
   "3000/6000", "4000/8000", "6000/12000", "8000/16000", "10000/20000"];
-//var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800", "500/1000","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000"]
 
 var widget_debug = true;
 
@@ -11,35 +10,10 @@ var tickInterval = null;
 var flashInterval = null;
 
 $(document).ready(function() {
-	Counter.initializeView();
+	TourneyManager.initializeView();
 	
   //Set up the controls
-/*
-  var html="<div class='control'><select id='levels' name='levels' MULTIPLE SIZE=5>"
-  
-  for(var i=0; i<blinds.length; i++) {
-    html += '<option value="'+ i + '"'
-    if(i==0){html += "selected='true' class='selected'";}
-    html += '>' + blinds[i] + '</option>'
-  }
-  html += "</select></div>"
-  $('#controls').append(html);
-  
-  
-  $('input.clear').each(function() { 
-    $(this).data('default', $(this).val()) .addClass('inactive') .focus(function() {
-      $(this).removeClass('inactive'); if ($(this).val() == $(this).data('default') || '') {
-      $(this).val('');
-    } })
-      .blur(function() { var default_val = $(this).data('default'); if ($(this).val() == '') {
-      $(this).addClass('inactive'); $(this).val($(this).data('default'));
-    } });
-  })
-  
-  
-  $('#startButton').click(function(){
-    startTimer();
-  });
+/*    
   
   $('#nextButton').click(function(){
     nextLevel();
@@ -70,7 +44,7 @@ $(document).ready(function() {
   */
 });
 
-Counter = {
+TourneyManager = {
 	log: function(message) {
 		if(widget_debug) {
 			console.log(message);
@@ -79,11 +53,55 @@ Counter = {
 	
 	//**************************************************
 	initializeView: function() {
+		$("input, textarea, select, button").uniform();
 		
-		
+		$("#right-controls").hide();
+		$("#bottom-controls").hide();
 		$("#counter").hide();
-	},
+		$("#rebuy-update").hide();
+		
+		for(i=1; i<= 27; i++) {
+			$('#players').addOption(i, i);
+		}
+		$('#players').selectOptions("10", true)
+		$.uniform.update('#players');
+		
+		for(i=0; i<blinds.length; i++) {
+			$('#levels').addOption(blinds[i], blinds[i]);
+		}
+		$('#levels').selectOptions(blinds[0], true);
+		$.uniform.update('#levels');
+		
+		
+		$('input.clear').each(function() { 
+	    $(this).data('default', $(this).val()) .addClass('inactive') .focus(function() {
+	      $(this).removeClass('inactive'); if ($(this).val() == $(this).data('default') || '') {
+	      $(this).val('');
+	    } })
+	      .blur(function() { var default_val = $(this).data('default'); if ($(this).val() == '') {
+	      $(this).addClass('inactive'); $(this).val($(this).data('default'));
+	    } });
+	  });
+		
+		$("#rebuy").click(function() {
+			if(this.checked) {
+				$('#rebuy-update').slideDown('slow');
+			}
+			else {
+				$('#rebuy-update').slideUp('slow');
+			}
+		});
+		
+		$("#startButton").click(function() {TourneyManager.start(); });
 	
+	}, //end initializeView()
+	
+	
+	start: function() {
+		TourneyManager.log("Start Timer.")
+		
+		
+	}, //end start()
 	
 };
 

@@ -2,8 +2,13 @@
 	<head>
 		<title>Blind Counter</title>
 		
-		<script src="scripts/jquery/jquery-1.4.2.min.js"></script>
-		<script src="scripts/jquery/jquery.color.js"></script>
+		<script src="scripts/jquery/jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="scripts/jquery/jquery.color.js" type="text/javascript"></script>
+		<script src="scripts/jquery/jquery.selectboxes.min.js" type="text/javascript"></script>
+		
+		<script src="uniform/jquery.uniform.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="uniform/css/uniform.default.css" type="text/css" media="screen" charset="utf-8">
+		
 		<script src="scripts/counter.js"></script>
 		
 		<link rel="stylesheet" href="css/counter.css" type="text/css" media="screen" charset="utf-8" />  
@@ -12,30 +17,102 @@
 	
 	<body>
 		<div id="main">
-			<div id="controls">
-				
-				<div class="control">
-					<button id="startButton">Start</button>
+			
+			<div id="setup-controls">
+				<div class="float-control">
+					<label>Number of Players</label>
+					<select id="players"></select>
+					
+					
+						<label>Buy-In</label>
+						<input type="text" id="buyIn" size="4" class="clear" value="10"/> 
+
+					
+						<label>Starting Stack</label>
+						<input type="text" id="startStack" size="8" class="clear" value="10000"/> 
 				</div>
 				
-				<div class="control">
-					<input type="text" id="countLength" size="5" class="clear" value="30"/> Length(Minutes)
+				<div class="float-control">
+					<label>Starting Level</label>
+					<select id="levels"></select>
+					
+					<label>Level Length (Minutes)</label>
+					<input type="text" id="countLength" size="5" class="clear" value="30"/>	
 				</div>
 				
+				
+				<div class="float-control">
+					<label><input type="checkbox" id="rebuy"/>Allow Rebuy?</label>
+					<div id="rebuy-update">
+						<label>Rebuy Amount</label>
+						<input type="text" id="rebuyAmount" size="4" class="clear" value="5"/> 
+
+						<label>Rebuy Stack</label>
+						<input type="text" id="rebuyStack" size="8" class="clear" value="5000"/>
+					</div>
+				</div>
+				
+				<div class="float-control">
+					<button type="button" id="startButton" alt="Start Tournament">Start</button>
+				</div>
+				
+			</div>
+			
+			<div id="right-controls">
+				<div id="right-button">
+					<img src="images/gear.png" class="img-button" />
+				</div>
+				<div id="right-button">
+					<img src="images/gear.png" class="img-button" />
+				</div>
+				<div id="right-button">
+					<img src="images/gear.png" class="img-button" />
+				</div>
 			</div>
 		
 			<div id="counter">
-				<h1 id="countval">30:00</h1>
-				<h2 id="blinds">First Level</h2>
+				
+				<div id="main-container">
+					<h1 id="countval">30:00</h1>
+				</div>
+				
+				<div id="main-container">
+					<div id="inner-container">
+						<h2 id="blinds">First Level</h2>
+						<hr>
+						<h2 id="numPlayers">Number</h2>
+					</div>
+					<div id="inner-container">
+						<h2 id="avrStack">Average</h2>
+						<hr>
+						<h2 id="avrM">Average M</h2>
+					</div>
+				</div>
+			</div>
+			
+			<div id="bottom-controls">
+				<div id="bottom-container">
+					<div id="bottom-button">
+						<img src="images/gear.png" class="img-button" />
+					</div>
+				</div>
+				<div id="bottom-container">
+					<div id="bottom-button">
+						<img src="images/gear.png" class="img-button" />
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		<div id="next" style="display:none">
-			<span><button id="nextButton">Next</button></span>
-			<span><button id="pauseButton">Pause</button></span>
-		</div>
-			
-		
+
 	</body>
 	
 </head>
+
+<!--
+
+
+<div id="next" style="display:none">
+	<span><button id="nextButton">Next</button></span>
+	<span><button id="pauseButton">Pause</button></span>
+</div>
+-->

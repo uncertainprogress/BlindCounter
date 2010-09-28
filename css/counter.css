@@ -1,29 +1,75 @@
-div {
+/*div {
   border: 1px dashed orange;
 }
 
 span {
   border: 1px dashed red;
-}
+} */
 
 body {
   text-align:center;
+	margin: 0px;
 }
 
 #main {
-  text-align:left;
-  width: 90%;
-  margin: auto;
+  text-align: center;
+	height: 99%;
 }
 
-#controls {
-  padding: 10px 1px 10px 1px;
+#setup-controls {
   vertical-align: middle;
+	padding: 10px 5% 0% 5%;
+}
+
+#right-controls {
+	width: 4%;
+	margin: 1px 1px 1px 1px;
+	float: right;
+	clear: both;
+}
+
+#right-button {
+	border-left: 1px black solid;
+	border-top: 1px black solid;
+	border-bottom: 1px black solid;
+}
+
+#bottom-controls {
+	height: 8%;
+	width: 25%;
+	margin: auto;
+	position: absolute;
+	bottom: 0;
+	left: 35%;
+}
+
+#bottom-container {
+	width: 45%;
+	float: left;
+}
+
+#bottom-button {
+	width: 50%;
+	margin-left: 45%;
+	border-left: 1px black solid;
+	border-right: 1px black solid;
+	border-top: 1px black solid;
+}
+
+#main-container {
+	width: 50%;
+	margin: auto;
+}
+
+#inner-container {
+	float: left;;
+	width: 49%;
+	text-align: center;
 }
 
 #counter {
-  text-align: center;
-  height: 90%;
+  height: 85%;
+	width: 95%;
 }
 
 /*#counter h1 {
@@ -42,9 +88,19 @@ body {
   padding 10px;
 }
 
-.control {
-  margin: 10px;
-  padding: 2px;
+label {
+ 	font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: block;
+  margin: 6px 0px 1px 0px;
+  clear: both;
+}
+
+.float-control {
+  float: left;
+	margin: 1px 4px 1px 4px;
+	text-align: left;
 }
 
 .inactive {
@@ -57,4 +113,9 @@ body {
 
 .yellowback {
   background-color: #FFFF66;
+}
+
+.img-button {
+	height: 50;
+	width: 50;
 }
