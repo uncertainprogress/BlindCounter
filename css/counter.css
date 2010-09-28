@@ -1,4 +1,4 @@
-/*div {
+/* div {
   border: 1px dashed orange;
 }
 
@@ -17,7 +17,8 @@ body {
 }
 
 #setup-controls {
-  vertical-align: middle;
+	width: 80%;
+	margin: auto;
 	padding: 10px 5% 0% 5%;
 }
 
@@ -65,6 +66,7 @@ body {
 	float: left;;
 	width: 49%;
 	text-align: center;
+	margin: 0px 0px 0px 0px;
 }
 
 #counter {

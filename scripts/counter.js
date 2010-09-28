@@ -3,12 +3,6 @@ var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300
 
 var widget_debug = true;
 
-var minutes = 30;
-var seconds = 59;
-
-var tickInterval = null;
-var flashInterval = null;
-
 $(document).ready(function() {
 	TourneyManager.initializeView();
 	
@@ -45,6 +39,14 @@ $(document).ready(function() {
 });
 
 TourneyManager = {
+	minutes: 29,
+	seconds: 59,
+	
+	tickInterval: null,
+	flashInterval: null,
+	
+	
+	
 	log: function(message) {
 		if(widget_debug) {
 			console.log(message);
@@ -97,27 +99,60 @@ TourneyManager = {
 	}, //end initializeView()
 	
 	
-	start: function() {
-		TourneyManager.log("Start Timer.")
+	start: function() {		
+		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
 		
+		$('#blinds').text(blinds[$('#levels').val()])
+	  this.minutes = parseInt($('#countLength').val());
+	  this.seconds=59;
+	  this.minutes--;
+	  
+		$('#countval').text(this.minutes+":"+this.seconds)
+		
+		setTimeout("$('#right-controls').show('slide')", 1300);
+		
+		this.tickInterval = setInterval("TourneyManager.tick()", 1000);
 		
 	}, //end start()
 	
-};
+	tick: function() {
+	  this.seconds--;
+	  if(this.seconds < 0) {
+	    this.minutes--;
+	    this.seconds = 59;
+	  }
 
-function startTimer() {
-  $('#blinds').text(blinds[$('#levels').val()])
-  minutes = parseInt($('#countLength').val());
-  seconds=59;
-  minutes--;
-  $('#countval').text(minutes+":"+seconds)
-  
-  $('#counter').fadeIn(function(){$('#controls').slideUp('slow');});
-  $('#next').slideUp('slow');
-  
-  tickInterval = setInterval("tick()", 1000);
-  
-}
+	  if(this.minutes < 0) {
+	    clearInterval(this.tickInterval);
+	    $('#countval').text("00:00")
+	    $('#main').addClass('redback')
+	    this.flashInterval = setInterval("TourneyManager.flash()", 450);
+	    $('#next').slideDown('slow');
+	    $('#levels').val(parseInt($('#levels').val())+1);
+			$.uniform.update('#levels')
+	  }
+	  else {
+	    if(this.seconds < 10) {
+	      $('#countval').text(this.minutes+":0"+this.seconds)
+	    }
+	    else {
+	      $('#countval').text(this.minutes+":"+this.seconds)
+	    }
+	  }
+	}, //end tick()
+	
+	flash: function() {
+	  if($('#main').hasClass('redback')) {
+	    $('#main').removeClass('redback')
+	    $('#main').addClass('yellowback')
+	  }
+	  else {
+	    $('#main').removeClass('yellowback')
+	    $('#main').addClass('redback')
+	  }
+	}, //end flash()
+	
+};
 
 function nextLevel() {
   clearInterval(flashInterval);
@@ -137,42 +172,6 @@ function pauseBlinds() {
   
 }
 
-function tick() {
-  seconds--;
-  if(seconds < 0) {
-    minutes--;
-    seconds = 59;
-  }
-  
-  if(minutes < 0) {
-    clearInterval(tickInterval);
-    $('#countval').text("00:00")
-    $('#counter').addClass('redback')
-    flashInterval = setInterval("flash()", 450);
-    $('#next').slideDown('slow');
-    $('#levels').val(parseInt($('#levels').val())+1);
-  }
-  else {
-    if(seconds < 10) {
-      $('#countval').text(minutes+":0"+seconds)
-    }
-    else {
-      $('#countval').text(minutes+":"+seconds)
-    }
-  }
-}
-
-function flash() {
-  if($('#counter').hasClass('redback')) {
-    $('#counter').removeClass('redback')
-    $('#counter').addClass('yellowback')
-  }
-  else {
-    $('#counter').removeClass('yellowback')
-    $('#counter').addClass('redback')
-  }
-  
-}
  
  
 
