@@ -8,15 +8,6 @@ $(document).ready(function() {
 	
   //Set up the controls
 /*    
-  
-  $('#nextButton').click(function(){
-    nextLevel();
-  });
-  
-  $('#pauseButton').click(function(){
-    pauseBlinds();
-  });
-  
   $(window).keypress(function(event) {
     if(event.keyCode == 27) {
       $('#counter').removeClass('yellowback')
@@ -39,13 +30,25 @@ $(document).ready(function() {
 });
 
 TourneyManager = {
+	
 	minutes: 29,
 	seconds: 59,
+	
+	tickLength: 1000,
+	flashLength: 450,
 	
 	tickInterval: null,
 	flashInterval: null,
 	
+	totalPlayers: 10,
+	numPlayers: 10,
+	stackSize: 10000,
+	buyIn: 10,
+	prizePool: 100,
+	totalChips: 100000,
 	
+	
+	//**************************************************
 	
 	log: function(message) {
 		if(widget_debug) {
@@ -57,10 +60,10 @@ TourneyManager = {
 	initializeView: function() {
 		$("input, textarea, select, button").uniform();
 		
-		$("#right-controls").hide();
-		$("#bottom-controls").hide();
-		$("#counter").hide();
-		$("#rebuy-update").hide();
+		//$("#right-controls").hide();
+		//$("#counter").hide();
+		//$("#rebuy-update").hide();
+		//$("#option-controls").hide();
 		
 		for(i=1; i<= 27; i++) {
 			$('#players').addOption(i, i);
@@ -94,12 +97,20 @@ TourneyManager = {
 			}
 		});
 		
-		$("#startButton").click(function() {TourneyManager.start(); });
-	
+		$("#startButton").click(function() {TourneyManager.startPlay(); });
+		$('#eliminate').click(function(){TourneyManager.eliminatePlayer();});
+		$('#options').click(function(){TourneyManager.toggleOptions();});
+		$('#play').click(function(){TourneyManager.continuePlay();});
+		$('#pause').click(function(){TourneyManager.pausePlay();});
+		$('#stop').click(function(){TourneyManager.stopPlay();});
+		$('#fixBlinds').click(function(){TourneyManager.fixBlinds();});
+		$('#fixPlayers').click(function(){TourneyManager.fixPlayers();});
+		$('#info').click(function(){TourneyManager.tourneyInfo();});
+		
 	}, //end initializeView()
 	
-	
-	start: function() {		
+	//**************************************************
+	startPlay: function() {		
 		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
 		
 		$('#blinds').text(blinds[$('#levels').val()])
@@ -111,10 +122,11 @@ TourneyManager = {
 		
 		setTimeout("$('#right-controls').show('slide')", 1300);
 		
-		this.tickInterval = setInterval("TourneyManager.tick()", 1000);
+		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
 		
 	}, //end start()
 	
+	//**************************************************
 	tick: function() {
 	  this.seconds--;
 	  if(this.seconds < 0) {
@@ -126,7 +138,7 @@ TourneyManager = {
 	    clearInterval(this.tickInterval);
 	    $('#countval').text("00:00")
 	    $('#main').addClass('redback')
-	    this.flashInterval = setInterval("TourneyManager.flash()", 450);
+	    this.flashInterval = setInterval("TourneyManager.flash()", this.flashLength);
 	    $('#next').slideDown('slow');
 	    $('#levels').val(parseInt($('#levels').val())+1);
 			$.uniform.update('#levels')
@@ -141,6 +153,7 @@ TourneyManager = {
 	  }
 	}, //end tick()
 	
+	//**************************************************
 	flash: function() {
 	  if($('#main').hasClass('redback')) {
 	    $('#main').removeClass('redback')
@@ -152,6 +165,77 @@ TourneyManager = {
 	  }
 	}, //end flash()
 	
+	//**************************************************
+	eliminatePlayer: function() {
+		this.numPlayers--;
+		this.updateDisplay();
+	},
+	
+	//**************************************************
+	toggleOptions: function() {
+		if($('#option-controls').is(":visible")) {
+			$('#option-controls').hide("slide");
+		}
+		else {
+			$('#option-controls').show("slide");
+		}
+		
+	},
+	
+	//**************************************************
+	continuePlay: function() {
+		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
+		this.toggleOptions();
+	},
+	
+	//**************************************************
+	pausePlay: function() {
+		clearInterval(this.tickInterval);
+		this.clearFlash();
+	},
+	
+	//**************************************************
+	stopPlay: function() {
+		clearInterval(this.tickInterval);
+		this.clearFlash();
+	},
+	
+	//**************************************************
+	fixBlinds: function() {
+		$('#fixBlindsDialog').dialog({closeOnEscape: true,
+	      draggable: false,
+	      resizable: false,
+	      height:50,
+	      width:250,
+	      modal:true,
+	      title: "Fix Blind Level",
+	      beforeclose: function(event, ui) {
+	        //stuff
+	      }});
+	},
+	
+	//**************************************************
+	fixPlayers: function() {
+		
+	},
+	
+	//**************************************************
+	tourneyInfo: function() {
+		
+	},
+	
+	//**************************************************
+	updateDisplay: function() {
+		
+	},
+	
+	//**************************************************
+	clearFlash: function() {
+		$('#main').removeClass('redback');
+		$('#main').removeClass('yellowback');
+		clearInterval(this.flashInterval);
+	}
+
 };
 
 function nextLevel() {
