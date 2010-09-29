@@ -147,10 +147,13 @@ TourneyManager = {
 	    resizable: false,
 			position: "center",
 	    height:100,
-	    width:150,
+	    width:200,
 	    modal:true,
 	    title: "Rebuy?",
-			buttons: { "Yes": function(){ $(this).dialog('close'); }, "No": function(){ this.dialog('close');}},
+			buttons: { "Yes": function(){ 
+				TourneyManager.rebuyPlayer();
+				TourneyManager.updateDisplay();
+				$(this).dialog('close'); }, "No": function(){ $(this).dialog('close');}},
 	   });
 	
 		$('#infoDialog').dialog({
@@ -159,11 +162,26 @@ TourneyManager = {
 	    draggable: false,
 	    resizable: false,
 			position: "center",
-	    height:200,
-	    width:250,
+	    height:350,
+	    width:450,
 	    modal:true,
 	    title: "Tournament Information",
 			buttons: { "Ok": function(){ $(this).dialog('close'); }},
+	   });
+	
+		$('#nextBlindDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:200,
+	    width:200,
+	    modal:false,
+	    title: "Next Blind Level",
+			buttons: { "Next": function(){ 
+				TourneyManager.nextLevel();
+				$(this).dialog('close'); }},
 	   });
 		
 	}, //end initializeView()
@@ -195,23 +213,28 @@ TourneyManager = {
 		}
 		
 		this.totalChips = this.totalPlayers*this.stackSize;
+		this.prizePool = this.totalPlayers*this.buyIn;
 		
-		this.updateDisplay();
+		this.startTimer();
 		
-	  try{this.minutes = parseInt($('#countLength').val());}
+		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
+		
+		setTimeout("$('#right-controls').show('slide', {direction: 'right'})", 1000);		
+	}, //end start()
+	
+	//**************************************************
+	startTimer: function() {
+		try{this.minutes = parseInt($('#countLength').val());}
 		catch(e) {this.minutes = 30;}
 	  this.seconds=59;
 	  this.minutes--;
  		
 		$('#countval').text(this.minutes+":"+this.seconds)
 		
-		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
-		
-		setTimeout("$('#right-controls').show('slide')", 1300);
-		
 		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
 		
-	}, //end start()
+		this.updateDisplay();
+	},
 	
 	//**************************************************
 	tick: function() {
@@ -226,8 +249,9 @@ TourneyManager = {
 	    $('#countval').text("00:00") 
 	    $('#main').addClass('redback')
 	    this.flashInterval = setInterval("TourneyManager.flash()", this.flashLength);
-	    $('#levels').val(parseInt($('#levels').val())+1);
+			$('#levels').selectOptions($('#levels option:selected').next().text(), true);
 			$.uniform.update('#levels')
+			$('#nextBlindDialog').dialog('open')
 	  }
 	  else {
 	    if(this.seconds < 10) {
@@ -252,8 +276,24 @@ TourneyManager = {
 	}, //end flash()
 	
 	//**************************************************
+	clearFlash: function() {
+		$('#main').removeClass('redback');
+		$('#main').removeClass('yellowback');
+		clearInterval(this.flashInterval);
+	},
+	
+	//**************************************************
+	nextLevel: function() {
+		this.clearFlash();
+		this.startTimer();
+	},
+	
+	//**************************************************
 	eliminatePlayer: function() {
 		this.numPlayers--;
+		if(this.rebuy) {
+			$('#rebuyDialog').dialog('open');
+		}
 		this.updateDisplay();
 	},
 	
@@ -293,7 +333,9 @@ TourneyManager = {
 	
 	//**************************************************
 	updateBlinds: function() {
-		
+		$('#levels').selectOptions($('#levels2').val(), true);
+		$.uniform.update('#levels');
+		this.updateDisplay()
 	},
 	
 	//**************************************************
@@ -308,37 +350,36 @@ TourneyManager = {
 	
 	//**************************************************
 	tourneyInfo: function() {
-		
+		$('#infoDialog').dialog('open')
+	},
+	
+	//**************************************************
+	rebuyPlayer: function() {
+		this.numPlayers++;
+		this.totalChips += this.rebuyStack;
+		this.prizePool += this.rebuyAmount;
 	},
 	
 	//**************************************************
 	updateDisplay: function() {
 		
-		$('#levels').selectOptions($('#levels2').val(), true);
-		$.uniform.update('#levels');
-		
 		$('#blinds').text($('#levels').val());
 		
 		$('#numPlayers').text(this.numPlayers + " Players");
 		var avr = Math.floor(this.totalChips/this.numPlayers);
-this.log(avr)
+		
 		var blinds = $('#levels').val();
 		blinds = blinds.split('/');
-		round = parseInt(blinds[0]) + parseInt(blinds[1])
+		round = parseInt(blinds[0]) + parseInt(blinds[1]);
 		
 		$('#avrStack').text("Average Stack:" + avr);		
 		$('#avrM').text("Average M: " + (avr/round).toFixed(2));
 		
-		//update prize pool
+		$('#playersLeft').text(this.numPlayers + " of " + this.totalPlayers + " Remaining");
+		$('#totalChips').text(this.totalChips + " Chips in Play");
+		$('#prizePool').text("$" + this.prizePool + " Total Pool");
 		
 	},
-	
-	//**************************************************
-	clearFlash: function() {
-		$('#main').removeClass('redback');
-		$('#main').removeClass('yellowback');
-		clearInterval(this.flashInterval);
-	}
 
 };
 
