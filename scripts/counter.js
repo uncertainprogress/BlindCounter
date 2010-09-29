@@ -43,6 +43,10 @@ TourneyManager = {
 	totalPlayers: 10,
 	numPlayers: 10,
 	stackSize: 10000,
+	rebuy: false,
+	rebuys: 0,
+	rebuyAmount: 5,
+	rebuyStack: 5000,
 	buyIn: 10,
 	prizePool: 100,
 	totalChips: 100000,
@@ -60,19 +64,21 @@ TourneyManager = {
 	initializeView: function() {
 		$("input, textarea, select, button").uniform();
 		
-		//$("#right-controls").hide();
-		//$("#counter").hide();
-		//$("#rebuy-update").hide();
-		//$("#option-controls").hide();
+		$("#right-controls").hide();
+		$("#counter").hide();
+		$("#rebuy-update").hide();
+		$("#option-controls").hide();
 		
 		for(i=1; i<= 27; i++) {
 			$('#players').addOption(i, i);
+			$('#players2').addOption(i, i);
 		}
 		$('#players').selectOptions("10", true)
 		$.uniform.update('#players');
 		
 		for(i=0; i<blinds.length; i++) {
 			$('#levels').addOption(blinds[i], blinds[i]);
+			$('#levels2').addOption(blinds[i], blinds[i]);
 		}
 		$('#levels').selectOptions(blinds[0], true);
 		$.uniform.update('#levels');
@@ -107,18 +113,99 @@ TourneyManager = {
 		$('#fixPlayers').click(function(){TourneyManager.fixPlayers();});
 		$('#info').click(function(){TourneyManager.tourneyInfo();});
 		
+		//set up the dialogs		
+		$('#fixBlindsDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:200,
+	    width:250,
+	    modal:true,
+	    title: "Update Blind Level",
+			buttons: { "Ok": function(){ TourneyManager.updateBlinds(); $(this).dialog('close'); }, "Cancel": function(){$(this).dialog('close');}},
+	   });
+	
+		$('#fixPlayersDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:200,
+	    width:250,
+	    modal:true,
+	    title: "Update Player Count",
+			buttons: { "Ok": function(){ TourneyManager.updatePlayers(); $(this).dialog('close'); }, "Cancel": function(){$(this).dialog('close');}},
+	   });
+		
+		$('#rebuyDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:100,
+	    width:150,
+	    modal:true,
+	    title: "Rebuy?",
+			buttons: { "Yes": function(){ $(this).dialog('close'); }, "No": function(){ this.dialog('close');}},
+	   });
+	
+		$('#infoDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:200,
+	    width:250,
+	    modal:true,
+	    title: "Tournament Information",
+			buttons: { "Ok": function(){ $(this).dialog('close'); }},
+	   });
+		
 	}, //end initializeView()
 	
 	//**************************************************
 	startPlay: function() {		
-		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
 		
-		$('#blinds').text(blinds[$('#levels').val()])
-	  this.minutes = parseInt($('#countLength').val());
+		//log all the starting values
+		$('#levels2').selectOptions($('#levels').val(), true);
+		$('#players2').selectOptions($('#players').val(), true);
+		$.uniform.update('#levels2');
+		$.uniform.update('#players2');
+		
+		this.totalPlayers = parseInt($('#players').val());
+		this.numPlayers = this.totalPlayers;
+		try { this.stackSize = parseInt($('#startStack').val()); }
+		catch(e) {this.stackSize = 10000;}
+		try { this.buyIn = parseInt($('#buyIn').val()); }
+		catch(e) {this.buyIn = 10;}
+		
+		if($('#rebuy').is(':checked')) {
+			this.rebuy = true;
+		}
+		if(this.rebuy){
+			try { this.rebuyStack = parseInt($('#rebuyStack').val()); }
+			catch(e) {this.rebuyStack = 5000;}
+			try { this.rebuyAmount = parseInt($('#rebuyAmount').val()); }
+			catch(e) {this.rebuyAmount = 5;}
+		}
+		
+		this.totalChips = this.totalPlayers*this.stackSize;
+		
+		this.updateDisplay();
+		
+	  try{this.minutes = parseInt($('#countLength').val());}
+		catch(e) {this.minutes = 30;}
 	  this.seconds=59;
 	  this.minutes--;
-	  
+ 		
 		$('#countval').text(this.minutes+":"+this.seconds)
+		
+		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
 		
 		setTimeout("$('#right-controls').show('slide')", 1300);
 		
@@ -136,10 +223,9 @@ TourneyManager = {
 
 	  if(this.minutes < 0) {
 	    clearInterval(this.tickInterval);
-	    $('#countval').text("00:00")
+	    $('#countval').text("00:00") 
 	    $('#main').addClass('redback')
 	    this.flashInterval = setInterval("TourneyManager.flash()", this.flashLength);
-	    $('#next').slideDown('slow');
 	    $('#levels').val(parseInt($('#levels').val())+1);
 			$.uniform.update('#levels')
 	  }
@@ -174,10 +260,10 @@ TourneyManager = {
 	//**************************************************
 	toggleOptions: function() {
 		if($('#option-controls').is(":visible")) {
-			$('#option-controls').hide("slide");
+			$('#option-controls').hide("slide", {direction: 'right'});
 		}
 		else {
-			$('#option-controls').show("slide");
+			$('#option-controls').show("slide", {direction: 'right'});
 		}
 		
 	},
@@ -202,20 +288,21 @@ TourneyManager = {
 	
 	//**************************************************
 	fixBlinds: function() {
-		$('#fixBlindsDialog').dialog({closeOnEscape: true,
-	      draggable: false,
-	      resizable: false,
-	      height:50,
-	      width:250,
-	      modal:true,
-	      title: "Fix Blind Level",
-	      beforeclose: function(event, ui) {
-	        //stuff
-	      }});
+		$('#fixBlindsDialog').dialog('open');
+	},
+	
+	//**************************************************
+	updateBlinds: function() {
+		
 	},
 	
 	//**************************************************
 	fixPlayers: function() {
+		
+	},
+	
+	//**************************************************
+	updatePlayers: function() {
 		
 	},
 	
@@ -226,6 +313,23 @@ TourneyManager = {
 	
 	//**************************************************
 	updateDisplay: function() {
+		
+		$('#levels').selectOptions($('#levels2').val(), true);
+		$.uniform.update('#levels');
+		
+		$('#blinds').text($('#levels').val());
+		
+		$('#numPlayers').text(this.numPlayers + " Players");
+		var avr = Math.floor(this.totalChips/this.numPlayers);
+this.log(avr)
+		var blinds = $('#levels').val();
+		blinds = blinds.split('/');
+		round = parseInt(blinds[0]) + parseInt(blinds[1])
+		
+		$('#avrStack').text("Average Stack:" + avr);		
+		$('#avrM').text("Average M: " + (avr/round).toFixed(2));
+		
+		//update prize pool
 		
 	},
 	

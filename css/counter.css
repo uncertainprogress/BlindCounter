@@ -17,14 +17,19 @@ body {
 }
 
 #setup-controls {
-	width: 80%;
+	width: 75%;
+	height: 20%;
 	margin: auto;
 	padding: 10px 5% 0% 5%;
 }
 
-#right-controls {
+.right-container {
 	width: 4%;
-	margin: 1px 1px 1px 1px;
+	float: right;
+	clear: both;
+}
+.right-controls {
+	margin: 20px 1px 1px 1px;
 	float: right;
 	clear: both;
 }
