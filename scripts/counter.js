@@ -51,6 +51,13 @@ TourneyManager = {
 	prizePool: 100,
 	totalChips: 100000,
 	
+	payIncrement: 5,
+	
+	first: 0,
+	second: 0,
+	third: 15,
+	fourth: 15,
+	
 	
 	//**************************************************
 	
@@ -220,6 +227,8 @@ TourneyManager = {
 		$('#setup-controls').slideUp('slow', function(){$('#counter').fadeIn();});
 		
 		setTimeout("$('#right-controls').show('slide', {direction: 'right'})", 1000);		
+		
+		this.updateDisplay();
 	}, //end start()
 	
 	//**************************************************
@@ -228,6 +237,10 @@ TourneyManager = {
 		catch(e) {this.minutes = 30;}
 	  this.seconds=59;
 	  this.minutes--;
+		if(widget_debug) {
+			this.seconds =10;
+			this.minutes = 0;
+		}
  		
 		$('#countval').text(this.minutes+":"+this.seconds)
 		
@@ -378,6 +391,23 @@ TourneyManager = {
 		$('#playersLeft').text(this.numPlayers + " of " + this.totalPlayers + " Remaining");
 		$('#totalChips').text(this.totalChips + " Chips in Play");
 		$('#prizePool').text("$" + this.prizePool + " Total Pool");
+		
+		var payouts = new Array();
+		var initalPool = this.totalPlayers*this.buyIn;
+		var rebuyPool = this.rebuys*this.rebuyAmount;
+		
+		if(this.totalPlayers > 10) { //15%, 20%, 25%, 40%
+			payouts[3] = 15
+			payouts[2] = 20
+			payouts[1] = 25
+			payouts[0] = 40
+		}
+		else { //20%, 30%, 50%
+			payouts[2] = 15
+			payouts[1] = 25
+			payouts[0] = 50
+		}
+		$('#payouts').text("$" + payouts.join(", $"));
 		
 	},
 
