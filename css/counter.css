@@ -79,17 +79,17 @@ body {
 	width: 95%;
 }
 
-/*#counter h1 {
-  font-size: 180pt;
+#counter h1 {
+  font-size: 150pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }
 
 #counter h2 {
-  font-size: 100pt;
+  font-size: 25pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
-}*/
+}
 
 #next {
   padding 10px;
