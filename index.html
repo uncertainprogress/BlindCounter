@@ -14,6 +14,8 @@
 		
 		<script src="scripts/counter.js"></script>
 		
+		<script type="text/javascript" language="javascript" src="audio/niftyplayer/niftyplayer.js"></script>
+		
 		<link rel="stylesheet" href="css/counter.css" type="text/css" media="screen" charset="utf-8" />  
 		
 	</head>
@@ -62,34 +64,34 @@
 			</div>
 			<div class="right-container">
 				<div id="right-controls" class="right-controls">
-					<div id="right-button">
+					<div class="right-button">
 						<img id="eliminate" src="images/reset2.png" class="img-button" alt="Eliminate Player"/>
 					</div>
-<!--					<div id="right-button">
+<!--					<div class="right-button">
 						<img id="options" src="images/tools.png" class="img-button" alt="Tournament Options"/>
 					</div>
 				</div>
 			
 				<div id="option-controls" class="right-controls">-->
-					<div id="right-button">
+					<div class="right-button">
 						<img id="play" src="images/play.png" class="img-button" alt="Continue"/>
 					</div>
-					<div id="right-button">
+					<div class="right-button">
 						<img id="pause" src="images/pause.png" class="img-button" alt="Pause Blinds"/>
 					</div>
-					<!--<div id="right-button">
+					<!--<div class="right-button">
 						<img id="stop" src="images/stop.png" class="img-button" alt="Stop Tournament"/>
 					</div>-->
-					<div id="right-button">
+					<div class="right-button">
 						<img id="info" src="images/info2.png" class="img-button" alt="Tournament Info"/>
 					</div>
-					<div id="right-button">
+					<div class="right-button">
 						<img id="fixBlinds" src="images/dollar2.png" class="img-button" alt="Adjust Blinds"/>
 					</div>
-					<div id="right-button">
+					<div class="right-button">
 						<img id="fixLevels" src="images/clock.png" class="img-button" alt="Adjust Level Length"/>
 					</div>
-					<!--<div id="right-button">
+					<!--<div class="right-button">
 						<img id="fixPlayers" src="images/longlife.png" class="img-button" alt="Adjust Players"/>
 					</div>-->
 				</div>
@@ -97,23 +99,34 @@
 		
 			<div id="counter">
 				
-				<div id="main-container">
+				<div class="main-container">
 					<h1 id="countval">30:00</h1>
 				</div>
 				
-				<div id="main-container">
-					<div id="inner-container">
+				<div class="main-container">
+					<div class="inner-container">
 						<h2 id="blinds">First Level</h2>
 						<hr>
 						<h2 id="avrStack">Average</h2>
 					</div>
-					<div id="inner-container">
+					<div class="inner-container">
 						<h2 id="numPlayers">Number</h2>
 						<hr>
 						<h2 id="avrM">Average M</h2>
 					</div>
 				</div>
 			</div>
+			
+			<div id="player">
+				<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="165" height="37" id="niftyPlayer" align="">
+				 <param name=movie value="audio/niftyplayer/niftyplayer.swf?file=audio/redalert.mp3&as=0">
+				 <param name=quality value=high>
+				 <param name=bgcolor value=#FFFFFF>
+				 	<embed src="audio/niftyplayer/niftyplayer.swf?file=audio/redalert.mp3&as=0" quality=high bgcolor=#FFFFFF width="165" height="37" name="niftyPlayer" align="" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer">
+					</embed>
+				</object>
+			</div>
+			
 		</div>
 		
 		<div id="fixBlindsDialog" style="display:none; text-align:center">
@@ -140,18 +153,8 @@
 			<h3 id= "payouts">Pay structure</h3>
 		</div>
 		
-		<div id="nextBlindDialog"></div>
+		<div id="nextBlindDialog" style="display:none"></div>
 		
-		
-
 	</body>
 	
 </head>
-
-<!--
-
-<div id="next" style="display:none">
-	<span><button id="nextButton">Next</button></span>
-	<span><button id="pauseButton">Pause</button></span>
-</div>
--->

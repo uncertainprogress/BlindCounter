@@ -1,7 +1,9 @@
 var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
   "3000/6000", "4000/8000", "6000/12000", "8000/16000", "10000/20000"];
 
-var widget_debug = true;
+var audio = ["audio/imperialmarch.mp3", "audio/redalert.mp3", "audio/tiefighter.mp3"];
+
+var widget_debug = false;
 
 $(document).ready(function() {
 	TourneyManager.initializeView();
@@ -184,7 +186,7 @@ TourneyManager = {
 	
 		$('#nextBlindDialog').dialog({
 			autoOpen: false,
-			closeOnEscape: true,
+			closeOnEscape: false,
 	    draggable: false,
 	    resizable: false,
 			position: "center",
@@ -252,6 +254,9 @@ TourneyManager = {
 		
 		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
 		
+		//preload the audio
+		niftyplayer('niftyPlayer').load(audio[Math.floor(Math.random()*audio.length)]);
+		
 		this.updateDisplay();
 	},
 	
@@ -271,6 +276,8 @@ TourneyManager = {
 			$('#levels').selectOptions($('#levels option:selected').next().text(), true);
 			$.uniform.update('#levels')
 			$('#nextBlindDialog').dialog('open')
+			
+			niftyplayer('niftyPlayer').play();
 	  }
 	  else {
 	    if(this.seconds < 10) {
@@ -440,6 +447,9 @@ function nextLevel() {
   clearInterval(flashInterval);
   $('#counter').removeClass('yellowback');
   $('#counter').removeClass('redback');
+
+	niftyplayer('niftyPlayer').stop();
+
   startTimer();
 }
 

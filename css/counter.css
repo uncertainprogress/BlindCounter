@@ -34,7 +34,7 @@ body {
 	clear: both;
 }
 
-#right-button {
+.right-button {
 	border-left: 1px black solid;
 	border-top: 1px black solid;
 	border-bottom: 1px black solid;
@@ -62,12 +62,12 @@ body {
 	border-top: 1px black solid;
 }
 
-#main-container {
-	width: 50%;
+.main-container {
+	width: 65%;
 	margin: auto;
 }
 
-#inner-container {
+.inner-container {
 	float: left;;
 	width: 49%;
 	text-align: center;
@@ -86,7 +86,7 @@ body {
 }
 
 #counter h2 {
-  font-size: 25pt;
+  font-size: 35pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }
@@ -125,4 +125,9 @@ label {
 .img-button {
 	height: 50;
 	width: 50;
+}
+
+#player {
+	float: left;
+	opacity: 0;
 }
