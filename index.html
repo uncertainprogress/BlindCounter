@@ -65,12 +65,12 @@
 					<div id="right-button">
 						<img id="eliminate" src="images/reset2.png" class="img-button" alt="Eliminate Player"/>
 					</div>
-					<div id="right-button">
+<!--					<div id="right-button">
 						<img id="options" src="images/tools.png" class="img-button" alt="Tournament Options"/>
 					</div>
 				</div>
 			
-				<div id="option-controls" class="right-controls">
+				<div id="option-controls" class="right-controls">-->
 					<div id="right-button">
 						<img id="play" src="images/play.png" class="img-button" alt="Continue"/>
 					</div>
@@ -85,6 +85,9 @@
 					</div>
 					<div id="right-button">
 						<img id="fixBlinds" src="images/dollar2.png" class="img-button" alt="Adjust Blinds"/>
+					</div>
+					<div id="right-button">
+						<img id="fixLevels" src="images/clock.png" class="img-button" alt="Adjust Level Length"/>
 					</div>
 					<!--<div id="right-button">
 						<img id="fixPlayers" src="images/longlife.png" class="img-button" alt="Adjust Players"/>
@@ -118,6 +121,11 @@
 			<select id="levels2"></select>
 		</div>
 		
+		<div id="fixTimeDialog" style="display:none; text-align:center">
+			<label>Level Length</label>
+			<input type="text" id="countLength2" size="5" class="clear" value="30"/>	
+		</div>
+		
 		<div id="fixPlayersDialog" style="display:none; text-align:center">
 			<label>Number of Players</label>
 			<select id="players2"></select>
@@ -133,6 +141,7 @@
 		</div>
 		
 		<div id="nextBlindDialog"></div>
+		
 		
 
 	</body>

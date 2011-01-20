@@ -1,26 +1,18 @@
 var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
   "3000/6000", "4000/8000", "6000/12000", "8000/16000", "10000/20000"];
 
-var widget_debug = false;
+var widget_debug = true;
 
 $(document).ready(function() {
 	TourneyManager.initializeView();
 	
-  //Set up the controls
-/*    
+  //Set up the controls   
   $(window).keypress(function(event) {
     if(event.keyCode == 27) {
-      $('#counter').removeClass('yellowback')
-      $('#counter').removeClass('redback')
-      clearInterval(tickInterval);
-      clearInterval(flashInterval);
-      
-      $('#controls').slideDown('slow');
-      $('#next').slideUp('slow');
-      $('#counter').fadeOut();
-    }
-  });
-  
+      TourneyManager.nextLevel();
+			$('#nextBlindDialog').dialog('close'); }
+	});
+/*  
   $('#countLength').keypress(function(event){
     if(event.keyCode == 13) {
       startTimer();
@@ -112,11 +104,12 @@ TourneyManager = {
 		
 		$("#startButton").click(function() {TourneyManager.startPlay(); });
 		$('#eliminate').click(function(){TourneyManager.eliminatePlayer();});
-		$('#options').click(function(){TourneyManager.toggleOptions();});
+		//$('#options').click(function(){TourneyManager.toggleOptions();});
 		$('#play').click(function(){TourneyManager.continuePlay();});
 		$('#pause').click(function(){TourneyManager.pausePlay();});
 		$('#stop').click(function(){TourneyManager.stopPlay();});
 		$('#fixBlinds').click(function(){TourneyManager.fixBlinds();});
+		$('#fixLevels').click(function(){TourneyManager.fixLevels();});
 		$('#fixPlayers').click(function(){TourneyManager.fixPlayers();});
 		$('#info').click(function(){TourneyManager.tourneyInfo();});
 		
@@ -132,6 +125,19 @@ TourneyManager = {
 	    modal:true,
 	    title: "Update Blind Level",
 			buttons: { "Ok": function(){ TourneyManager.updateBlinds(); $(this).dialog('close'); }, "Cancel": function(){$(this).dialog('close');}},
+	   });
+	
+		$('#fixTimeDialog').dialog({
+			autoOpen: false,
+			closeOnEscape: true,
+	    draggable: false,
+	    resizable: false,
+			position: "center",
+	    height:200,
+	    width:250,
+	    modal:true,
+	    title: "Update Level Length",
+			buttons: { "Ok": function(){ TourneyManager.updateLevels(); $(this).dialog('close'); }, "Cancel": function(){$(this).dialog('close');}},
 	   });
 	
 		$('#fixPlayersDialog').dialog({
@@ -324,7 +330,7 @@ TourneyManager = {
 	//**************************************************
 	continuePlay: function() {
 		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
-		this.toggleOptions();
+		//this.toggleOptions();
 	},
 	
 	//**************************************************
@@ -349,6 +355,23 @@ TourneyManager = {
 		$('#levels').selectOptions($('#levels2').val(), true);
 		$.uniform.update('#levels');
 		this.updateDisplay()
+	},
+	
+	//**************************************************
+	fixLevels: function() {
+		this.pausePlay();
+		$("#fixTimeDialog").dialog('open');
+	},
+	
+	//**************************************************
+	updateLevels: function() {
+		try {
+			this.minutes = parseInt($('#countLength2').val());
+			this.seconds = 0;
+			$("#countLength").val(this.minutes); 
+			this.continuePlay();
+		}
+		catch(e) {}
 	},
 	
 	//**************************************************
