@@ -1,7 +1,7 @@
 var blinds = ["25/50", "50/100", "75/150", "100/200", "150/300", "200/400", "300/600", "400/800","600/1200","800/1600", "1000/2000", "1500/3000", "2000/4000", 
   "3000/6000", "4000/8000", "6000/12000", "8000/16000", "10000/20000"];
 
-var audio = ["audio/imperialmarch.mp3", "audio/redalert.mp3", "audio/tiefighter.mp3"];
+var audio = ["audio/imperialmarch.mp3", "audio/redalert.mp3", "audio/tiefighter.mp3", "audio/airraid.mp3"];
 
 var widget_debug = false;
 
