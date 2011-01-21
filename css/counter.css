@@ -63,7 +63,7 @@ body {
 }
 
 .main-container {
-	width: 65%;
+	width: 90%;
 	margin: auto;
 }
 
@@ -86,7 +86,7 @@ body {
 }
 
 #counter h2 {
-  font-size: 35pt;
+  font-size: 33pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }
@@ -128,6 +128,8 @@ label {
 }
 
 #player {
-	float: left;
+	float: right;
 	opacity: 0;
+	overflow: hidden;
+	width: 5000px;
 }
