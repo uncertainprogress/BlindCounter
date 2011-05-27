@@ -25,6 +25,8 @@ $(document).ready(function() {
 
 TourneyManager = {
 	
+	running: false,
+	
 	minutes: 29,
 	seconds: 59,
 	
@@ -203,7 +205,6 @@ TourneyManager = {
 	
 	//**************************************************
 	startPlay: function() {		
-		
 		//log all the starting values
 		$('#levels2').selectOptions($('#levels').val(), true);
 		$('#players2').selectOptions($('#players').val(), true);
@@ -241,6 +242,9 @@ TourneyManager = {
 	
 	//**************************************************
 	startTimer: function() {
+	  if(TourneyManager.running) { return; }
+  	TourneyManager.running = true;
+		
 		try{this.minutes = parseInt($('#countLength').val());}
 		catch(e) {this.minutes = 30;}
 	  this.seconds=59;
@@ -278,6 +282,7 @@ TourneyManager = {
 			$('#nextBlindDialog').dialog('open')
 			
 			niftyplayer('niftyPlayer').play();
+			TourneyManager.running = false;
 	  }
 	  else {
 	    if(this.seconds < 10) {
@@ -336,18 +341,22 @@ TourneyManager = {
 	
 	//**************************************************
 	continuePlay: function() {
+	  if(TourneyManager.running) { return; }
+  	TourneyManager.running = true;
 		this.tickInterval = setInterval("TourneyManager.tick()", this.tickLength);
 		//this.toggleOptions();
 	},
 	
 	//**************************************************
 	pausePlay: function() {
+	  TourneyManager.running = false;
 		clearInterval(this.tickInterval);
 		this.clearFlash();
 	},
 	
 	//**************************************************
 	stopPlay: function() {
+	  TourneyManager.running = false;
 		clearInterval(this.tickInterval);
 		this.clearFlash();
 	},
