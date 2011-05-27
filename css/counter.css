@@ -80,13 +80,14 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 1em;
-  width: 450px;
+  width: 500px;
 }
 
 td {
   text-align: center;
-  font-size: 22pt;
+  font-size: 30pt;
   font-weight: bold;
+  padding: 6px;
 }
 
 
@@ -96,13 +97,13 @@ td {
 }
 
 #counter h1 {
-  font-size: 130pt;
+  font-size: 140pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }
 
 #counter h2 {
-  font-size: 33pt;
+  font-size: 42pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }

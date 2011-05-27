@@ -424,8 +424,8 @@ TourneyManager = {
 		blinds = blinds.split('/');
 		round = parseInt(blinds[0]) + parseInt(blinds[1]);
 		
-		$('#avrStack').text("Average Stack:" + avr);		
-		$('#avrM').text("Average M: " + (avr/round).toFixed(2));
+		$('#avrStack').text("Avg Stack:" + avr);		
+		$('#avrM').text("Avg M: " + (avr/round).toFixed(2));
 		
 		$('#playersLeft').text(this.numPlayers + " of " + this.totalPlayers + " Remaining");
 		$('#totalChips').text(this.totalChips + " Chips in Play");
