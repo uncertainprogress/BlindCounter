@@ -65,14 +65,30 @@ body {
 .main-container {
 	width: 90%;
 	margin: auto;
+	text-align: center;
 }
 
 .inner-container {
-	float: left;;
+	float: left;
 	width: 49%;
 	text-align: center;
 	margin: 0px 0px 0px 0px;
 }
+
+.chip-container {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  width: 450px;
+}
+
+td {
+  text-align: center;
+  font-size: 22pt;
+  font-weight: bold;
+}
+
 
 #counter {
   height: 85%;
@@ -80,7 +96,7 @@ body {
 }
 
 #counter h1 {
-  font-size: 150pt;
+  font-size: 130pt;
   padding: 2px;
   margin: 0px 0px 0px 0px;
 }
